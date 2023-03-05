@@ -1,0 +1,22 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{{template "title" .}} = ecommerce</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1><a href="/">Main page</a></h1>
+  </header>
+  <main>
+    {{ template "main-part" .}}
+  </main>
+</body>
+
+</html>
+{{ end }}

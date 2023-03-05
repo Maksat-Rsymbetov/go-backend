@@ -13,14 +13,20 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	ts, err := template.ParseFiles("./ui/html/pages/home.html")
+	var templates []string = []string{
+		"./ui/html/base.html",
+		"./ui/html/pages/home.html",
+	}
+	// ts, err := template.ParseFiles("./ui/html/pages/home.html") // initialize the html page
+	ts, err := template.ParseFiles(templates...) // initialize the html page
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal server error", 500)
 		return
 	}
 
-	err = ts.Execute(w, nil)
+	// err = ts.Execute(w, nil) // show html page and handle an error
+	err = ts.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal server error", 500)

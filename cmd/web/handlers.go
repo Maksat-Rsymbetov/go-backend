@@ -51,3 +51,7 @@ func pageCreate(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte("Creating a new page"))
 }
+
+func about(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("About this website"))
+}

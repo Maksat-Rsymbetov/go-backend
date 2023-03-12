@@ -4,19 +4,24 @@
 
 <head>
   <title>{{template "title" .}} = ecommerce</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="css/style.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="static/css/style.css" rel="stylesheet" />
 </head>
 
 <body>
   <header>
-    <h1><a href="/">Main page</a></h1>
+    <h1><a id="main-page" href="/">Based Bazaar!</a></h1>
   </header>
-  <main>
-    {{ template "main-part" .}}
-  </main>
+  <div id="sidebar" tabindex="1">
+    <a href="/page/create">Add a new product</a>
+    <a href="/profile">Your profile</a>
+  </div>
+  <main>{{ template "main-part" .}}</main>
 </body>
+<footer>
+  <a href="/about">About us</a>
+</footer>
 
 </html>
 {{ end }}

@@ -1,0 +1,18 @@
+{{ define "title" }}{{.Product.Name}}{{end}}
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{define "main-part"}}
+  {{with .Product}}
+  <div class="product">
+    <div class="head-part" >
+      <h2>{{.Name}}</h2>
+      <p>{{.ID}}</p>
+    </div>
+    <div class="description">
+      <p>{{.Description}}</p>
+    </div>
+    <div class="tail-part">
+      <time datetime="">{{.Created}}</time>
+    </div>
+  </div>
+  {{end}}
+{{end}}

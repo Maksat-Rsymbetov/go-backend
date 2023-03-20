@@ -20,7 +20,9 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "POST" {
-
+		searchVal := r.FormValue("search")
+		searchAddress := fmt.Sprintf("/search?sv=%v", searchVal)
+		http.Redirect(w, r, searchAddress, http.StatusSeeOther)
 	}
 
 	plist, err := app.products.GetList()
@@ -29,6 +31,23 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.render(w, 200, "home.html", &BaseTemplate{Products: plist})
+}
+
+func (app *application) search(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == "POST" {
+		searchVal := r.FormValue("search")
+		searchAddress := fmt.Sprintf("/search?sv=%v", searchVal)
+		http.Redirect(w, r, searchAddress, http.StatusSeeOther)
+	}
+
+	searchVal := r.URL.Query().Get("sv")
+	results, err := app.products.SearchResults(searchVal)
+	if err != nil {
+		app.serverError(w, err)
+	}
+	tmp := &BaseTemplate{Products: results}
+	app.render(w, 200, "home.html", tmp)
 }
 
 // Product view --------------------------------------------------------------

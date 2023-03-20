@@ -84,3 +84,21 @@ func (p *ProductModel) GetList() ([]*Product, error) {
 	}
 	return result, nil
 }
+
+func (p *ProductModel) SearchResults(value string) ([]*Product, error) {
+	const cmd string = `select id, name, price, created from products where name like concat('%', ?, '%')`
+	results, err := p.DB.Query(cmd, value)
+	if err != nil {
+		return nil, err
+	}
+	ret := []*Product{}
+	for results.Next() {
+		p := &Product{}
+		results.Scan(&p.ID, &p.Name, &p.Price, &p.Created)
+		ret = append(ret, p)
+	}
+	if err = results.Err(); err != nil {
+		return nil, err
+	}
+	return ret, nil
+}

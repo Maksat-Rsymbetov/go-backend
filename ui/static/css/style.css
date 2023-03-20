@@ -3,43 +3,8 @@
   text-decoration-line: none;
 }
 
-/* #sidebar { */
-/*   width: 60px; */
-/*   height: 60px; */
-/*   background-color: darkkhaki; */
-/*   padding: 10px; */
-/*   border-radius: 5px; */
-/*   transition: 0.45s; */
-/* } */
-/**/
-/* #sidebar-button { */
-/*   background-color: green; */
-/*   color: white; */
-/*   padding: 6px; */
-/*   border: 1px solid darkgreen; */
-/*   border-radius: 5px; */
-/* } */
-/**/
-/* #sidebar:focus { */
-/*   width: 200px; */
-/*   transition: opacity width 0.45s; */
-/* } */
-/**/
-/* #sidebar > a { */
-/*   white-space: nowrap; */
-/*   display: block; */
-/*   opacity: 0; */
-/*   overflow: hidden; */
-/*   transition: 0.45s; */
-/* } */
-/**/
-/* #sidebar:focus > a { */
-/*   display: block; */
-/*   white-space: nowrap;ID */
-/*   opacity: 1; */
-/*   color: white; */
-/*   transition: 0.45s; */
-/* } */
+form{display:inline;}
+label{color:white;}
 
 #sidebar {
   background-color: green;

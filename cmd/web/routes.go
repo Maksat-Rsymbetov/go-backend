@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func (app *application) routes() *http.ServeMux {
+func (app *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
 	// Fileserver to serve static files (css, js)
@@ -19,5 +19,5 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/user/login/", app.userLogin)
 	mux.HandleFunc("/user/logout/", app.userLogoutPost)
 
-	return mux
+	return app.recoverFromPanics(app.logRequest(secureHeaders(mux)))
 }

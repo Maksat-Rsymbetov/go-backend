@@ -102,3 +102,14 @@ func (p *ProductModel) SearchResults(value string) ([]*Product, error) {
 	}
 	return ret, nil
 }
+
+// func (p *ProductModel) createProduct(name, description string, price int) error {
+// 	const cmd string = `insert into products (name, description, price, created)
+// 		values(?, ?, ?, now());`
+//
+// 	_, err := p.DB.Exec(cmd, name, description, price)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }

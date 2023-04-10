@@ -77,23 +77,35 @@ func (app *application) productView(w http.ResponseWriter, r *http.Request) {
 
 // Create a new product (not used for now) -------------------------------------
 func (app *application) productCreate(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		w.Header().Set("Allow", http.MethodPost)
-		app.clientError(w, http.StatusMethodNotAllowed)
-		return
+	if r.Method == http.MethodGet {
+		// http.ServeFile(w, r, "./ui/html/pages/create.html")
+		app.render(w, 200, "create.html", &BaseTemplate{})
+	} else if r.Method == http.MethodPost {
+		err := r.ParseForm()
+		if err != nil {
+			app.serverError(w, err)
+		}
+		var name, description string = r.FormValue("name"), r.FormValue("description")
+		price, err := strconv.Atoi(r.FormValue("price"))
+		// app.infoLog.Println(name, description, price)
+		if err != nil {
+			app.clientError(w, http.StatusBadRequest)
+			return
+		}
+		id, err := app.products.Insert(name, description, price)
+		if err != nil {
+			app.serverError(w, err)
+			return
+		}
+
+		http.Redirect(w, r, fmt.Sprintf("/product/view?id=%v", id), http.StatusSeeOther)
 	}
+	// if r.Method != http.MethodPost {
+	// 	w.Header().Set("Allow", http.MethodPost)
+	// 	app.clientError(w, http.StatusMethodNotAllowed)
+	// 	return
+	// }
 
-	name := "Amazon kindle"
-	description := "buy a kindle book"
-	price := 5000
-
-	id, err := app.products.Insert(name, description, price)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	http.Redirect(w, r, fmt.Sprintf("/product/view?id=%v", id), http.StatusSeeOther)
 }
 
 // User Signup -------------------------------------------------------------------

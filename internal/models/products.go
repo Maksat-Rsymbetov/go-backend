@@ -85,9 +85,15 @@ func (p *ProductModel) GetList() ([]*Product, error) {
 	return result, nil
 }
 
-func (p *ProductModel) SearchResults(value string) ([]*Product, error) {
-	const cmd string = `select id, name, price, created from products where name like concat('%', ?, '%')`
-	results, err := p.DB.Query(cmd, value)
+func (p *ProductModel) SearchResults(value string, lowerPrice, upperPrice int) ([]*Product, error) {
+	if upperPrice == 0 {
+		upperPrice = 9999999999
+	}
+	var cmd string = `select id, name, price, created from products where price >= ? and price <= ?`
+	if value != "" {
+		cmd += ` and name like concat('%', ?, '%')`
+	}
+	results, err := p.DB.Query(cmd, value, lowerPrice, upperPrice)
 	if err != nil {
 		return nil, err
 	}

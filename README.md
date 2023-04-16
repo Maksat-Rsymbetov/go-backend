@@ -31,3 +31,7 @@ Added some security middleware, including logging and panic recover
 
 Developed a way to create a product, now when you press "add new product"
 it will show you the form, fill it out, and you should see it in the main menu
+
+## Go progress report no:9
+
+Added a possibility to filter the price

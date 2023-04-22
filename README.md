@@ -21,7 +21,7 @@ Do not remember what I added that time, but it sure involved something about mid
 
 ## Go progress report no:6
 
-Added login, and everything else neeeded for mideterm
+Added login, and everything else needed for midterm
 
 ## Go progress report no:7
 
@@ -35,3 +35,7 @@ it will show you the form, fill it out, and you should see it in the main menu
 ## Go progress report no:9
 
 Added a possibility to filter the price
+
+## Go progress report no:10 and midterm 2
+
+Added a possibility to rate the product, and migrated project to SQLite, not it should be more portable

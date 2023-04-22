@@ -1,0 +1,12 @@
+{{ define "title" }} Create a new product {{ end }}
+{{ define "main-part"}}
+<form method="post">
+  <label for="name" style="color: black;">Product Name</label>
+  <input type="text" name="name" value="" required> <br>
+  <label for="description" style="color: black;">Product description</label> <br>
+  <textarea id="description" name="description" rows="20" cols="80" required></textarea> <br>
+  <label for="price" style="color: black;">Product price</label>
+  <input type="number" name="price" value=""> <br>
+  <button type="submit">Add product</button>
+</form>
+{{ end }}

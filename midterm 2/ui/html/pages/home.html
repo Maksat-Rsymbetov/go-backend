@@ -1,0 +1,16 @@
+{{ define "title" }}Home page{{end}} 
+
+{{ define "main-part"}}
+<h2>Top recent products</h2>
+  <div id="recommend-menu">
+    {{ range .Products }}
+    <div class="product">
+      <h3>{{.Name}}</h3>
+      <p>Price: <b>{{.Price}}</b> tenge</p>
+      <a href="/product/view?id={{.ID}}" class="view-button">View Product</a>
+      <p>{{.Created}}</p>
+    </div>
+    {{ end }}
+  </div>
+<p>Nothing here yet</p>
+{{end}}

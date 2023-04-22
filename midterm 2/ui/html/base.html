@@ -1,0 +1,39 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{{template "title" .}} = ecommerce</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link defer href="/static/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1><a id="main-page" href="/">Based Bazaar!</a></h1>
+  </header>
+  <div id="sidebar" tabindex="1">
+    <a href="/product/create">Add a new product</a>
+    <a href="/profile">Your profile</a>
+    <a href="/user/signup/">Sign up</a>
+    <a href="/user/login/">Login</a>
+
+    <form method="POST">
+      <label for="search" style="color: white;">Search: </label>
+      <input type="text" name="search" value="">
+      <label for="lowerPrice">Minimum price</label>
+      <input type="number" name="lowerPrice" value="0">
+      <label for="upperPrice">Maximum price</label>
+      <input type="number" name="upperPrice" value="100000000000">
+      <input type="submit" value="search">
+    </form>
+  </div>
+  <main>{{ template "main-part" .}}</main>
+</body>
+<footer>
+  <a href="/about">About us</a>
+</footer>
+
+</html>
+{{ end }}

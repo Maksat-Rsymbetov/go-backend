@@ -1,0 +1,50 @@
+#main-page {
+  color: green;
+  text-decoration-line: none;
+}
+
+form{display:inline;}
+/* label{color:white;} */
+
+#sidebar {
+  background-color: green;
+  padding: 2%;
+}
+#sidebar > a {margin: 10px; color: white;}
+
+#recommend-menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 1%;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product {
+  padding: 2%;
+  margin: 1%;
+  border: 1px grey solid;
+  border-radius: 5px;
+  transition: 0.3s
+}
+
+.product:hover {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  transition: 0.3s
+}
+
+.view-button {
+  text-decoration-line: none;
+  background-color: lightblue;
+  padding: 5px;
+  transition: 0.3s;
+  border: 1px solid blue;
+  border-radius: 3px;
+  color: white;
+}
+
+.view-button:hover {
+  box-shadow: 0px 0px 0px 5px lightblue;
+}

@@ -27,7 +27,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		searchVal := r.FormValue("search")
 		lowerPrice := r.FormValue("lowerPrice")
 		upperPrice := r.FormValue("upperPrice")
-		searchAddress := fmt.Sprintf("/search?sv=%vlp=%vup=%v", searchVal, lowerPrice, upperPrice)
+		searchAddress := fmt.Sprintf("/search?sv=%v&lp=%v&up=%v", searchVal, lowerPrice, upperPrice)
 		http.Redirect(w, r, searchAddress, http.StatusSeeOther)
 	}
 
@@ -45,13 +45,19 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		searchVal := r.FormValue("search")
 		lowerPrice := r.FormValue("lowerPrice")
 		upperPrice := r.FormValue("upperPrice")
-		searchAddress := fmt.Sprintf("/search?sv=%vlp=%vup=%v", searchVal, lowerPrice, upperPrice)
+		searchAddress := fmt.Sprintf("/search?sv=%v&lp=%v&up=%v", searchVal, lowerPrice, upperPrice)
 		http.Redirect(w, r, searchAddress, http.StatusSeeOther)
 	}
 
 	searchVal := r.URL.Query().Get("sv")
 	lowerPrice, err := strconv.Atoi(r.URL.Query().Get("lp"))
+	if err != nil {
+		app.serverError(w, err)
+	}
 	upperPrice, err := strconv.Atoi(r.URL.Query().Get("up"))
+	if err != nil {
+		app.serverError(w, err)
+	}
 	results, err := app.products.SearchResults(searchVal, lowerPrice, upperPrice)
 	if err != nil {
 		app.serverError(w, err)

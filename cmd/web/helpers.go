@@ -32,7 +32,7 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 		app.serverError(w, err)
 		return
 	}
-	w.WriteHeader(status)
+	// w.WriteHeader(status)
 	err := tmpl.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		app.serverError(w, err)

@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -24,7 +25,7 @@ type ProductModel struct {
 func (p *ProductModel) Insert(name string, description string, price int) (int, error) {
 	// The actual command which is to be executed in the database
 	cmd := `insert into products (name, description, price, created) 
-        	values(?, ?, ?, utc_timestamp());`
+        	values(?, ?, ?, datetime());`
 
 	// Execution of the command
 	result, err := p.DB.Exec(cmd, name, description, price)
@@ -46,7 +47,19 @@ func (p *ProductModel) Get(id int) (*Product, error) {
 	row := p.DB.QueryRow(cmd, id)
 
 	d := &Product{}
-	err := row.Scan(&d.ID, &d.Name, &d.Description, &d.Price, &d.Created)
+	nid, nname, ndescription, nprice, ncreated := 0, "", "", 0, ""
+	err := row.Scan(&nid, &nname, &ndescription, &nprice, &ncreated)
+	ntime, err := time.Parse("2006-01-02 15:04:05", ncreated)
+	if err != nil {
+		return nil, err
+	}
+	// err := row.Scan(&d.ID, &d.Name, &d.Description, &d.Price, &d.Created)
+
+	d.ID = nid
+	d.Name = nname
+	d.Description = ndescription
+	d.Price = nprice
+	d.Created = ntime
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -62,7 +75,7 @@ func (p *ProductModel) Get(id int) (*Product, error) {
 // Return 10 most recently created snippets
 func (p *ProductModel) GetList() ([]*Product, error) {
 	const cmd string = `select id, name, price, created from products
-											order by id limit 10;`
+											order by id;`
 	rows, err := p.DB.Query(cmd)
 	if err != nil {
 		return nil, err
@@ -71,11 +84,24 @@ func (p *ProductModel) GetList() ([]*Product, error) {
 
 	result := []*Product{}
 	for rows.Next() {
+
 		p := &Product{}
-		err = rows.Scan(&p.ID, &p.Name, &p.Price, &p.Created)
+		nid, nname, nprice, ncreated := 0, "", 0, ""
+		err := rows.Scan(&nid, &nname, &nprice, &ncreated)
 		if err != nil {
 			return nil, err
 		}
+		// err = rows.Scan(&p.ID, &p.Name, &p.Price, &p.Created)
+		ntime, err := time.Parse("2006-01-02 15:04:05", ncreated)
+		if err != nil {
+			return nil, err
+		}
+
+		p.ID = nid
+		p.Name = nname
+		p.Price = nprice
+		p.Created = ntime
+
 		result = append(result, p)
 	}
 	// Catch errors encountered during the iteration over the table
@@ -86,27 +112,31 @@ func (p *ProductModel) GetList() ([]*Product, error) {
 }
 
 func (p *ProductModel) SearchResults(value string, lowerPrice, upperPrice int) ([]*Product, error) {
-	if upperPrice == 0 {
-		upperPrice = 9999999999
-	}
+
 	var cmd string = `select id, name, price, created from products where price >= ? and price <= ?`
 	if value != "" {
-		cmd += ` and name like concat('%', ?, '%')`
+		cmd += ` and name like "%` + value + `%"`
 	}
-	results, err := p.DB.Query(cmd, value, lowerPrice, upperPrice)
+
+	results, err := p.DB.Query(cmd, lowerPrice, upperPrice)
 	if err != nil {
 		return nil, err
 	}
+
 	ret := []*Product{}
 	for results.Next() {
 		p := &Product{}
 		results.Scan(&p.ID, &p.Name, &p.Price, &p.Created)
 		ret = append(ret, p)
 	}
+
 	if err = results.Err(); err != nil {
 		return nil, err
 	}
+
+	fmt.Println(cmd)
 	return ret, nil
+
 }
 
 // func (p *ProductModel) createProduct(name, description string, price int) error {

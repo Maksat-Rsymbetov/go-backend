@@ -3,7 +3,8 @@ package main
 import (
 	"database/sql"
 	"flag"
-	_ "github.com/go-sql-driver/mysql"
+	// _ "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
 	"html/template"
 	"log"
 	"net/http"
@@ -29,8 +30,9 @@ func main() {
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// The actual database connection pool
-	dataSource := flag.String("dsn", "web:pass@/ecommerce?parseTime=true", "MySQL data source name")
-	db, err := openDB(*dataSource)
+	// dataSource := flag.String("dsn", "web:pass@/ecommerce?parseTime=true", "MySQL data source name")
+	// db, err := openDB(*dataSource)
+	db, err := openDB("./internal/database/db.sqlite.db")
 	if err != nil {
 		errorLog.Fatal(err)
 	}
@@ -64,8 +66,8 @@ func main() {
 }
 
 // Return an sql.DB connection pool
-func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
+func openDB(file string) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", file)
 	if err != nil {
 		return nil, err
 	}
@@ -74,3 +76,14 @@ func openDB(dsn string) (*sql.DB, error) {
 	}
 	return db, nil
 }
+
+// func openDB(dsn string) (*sql.DB, error) {
+// 	db, err := sql.Open("mysql", dsn)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	if err = db.Ping(); err != nil {
+// 		return nil, err
+// 	}
+// 	return db, nil
+// }
